@@ -206,6 +206,30 @@ class LatentOperationSplitCFG(_NodeMarker):
         return ({"samples": uncond}, {"samples": cond})
 
 
+class LatentOperationInterpolate(_NodeMarker):
+    @classmethod
+    def INPUT_TYPES(s):
+        return {
+            "required": {
+                "latent_a": ("LATENT",),
+                "latent_b": ("LATENT",),
+                "alpha": ("FLOAT", {"default": 0.5, "step": 0.0001, "tooltip": "z = (1-alpha) * a + alpha * b"}),
+            },
+        }
+
+    RETURN_TYPES = ("LATENT",)
+    RETURN_NAMES = ("latent",)
+
+    FUNCTION = "interpolate"
+
+    CATEGORY = "hnmr/latent_ops"
+
+    def interpolate(self, latent_a: dict, latent_b: dict, alpha: float):
+        samples_a = latent_a["samples"]
+        samples_b = latent_b["samples"]
+        return ({"samples": (1 - alpha) * samples_a + alpha * samples_b},)
+
+
 __all__ = [
     "LatentOperationReshape",
     "LatentOperationSlice",
