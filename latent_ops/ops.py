@@ -70,7 +70,7 @@ class LatentOperationRoll(_LatentOperation):
 class LatentOperationAddBroadcast(_LatentOperation):
     @classmethod
     def INPUT_TYPES(s):
-        return {"required": {"value": ("FLOAT",)}}
+        return {"required": {"value": ("FLOAT", {"default": 1.0, "min": -10000.0, "max": 10000.0, "step": 0.0001})}}
 
     def op(self, value: float):
         def add(latent: torch.Tensor, **kwargs):
@@ -82,7 +82,7 @@ class LatentOperationAddBroadcast(_LatentOperation):
 class LatentOperationMulBroadcast(_LatentOperation):
     @classmethod
     def INPUT_TYPES(s):
-        return {"required": {"value": ("FLOAT",)}}
+        return {"required": {"value": ("FLOAT", {"default": 1.0, "min": -10000.0, "max": 10000.0, "step": 0.0001})}}
 
     def op(self, value: float):
         def mul(latent: torch.Tensor, **kwargs):
