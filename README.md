@@ -1,5 +1,7 @@
 # ComfyUI-latent-ops
 
+[日本語 ver.](./README_ja.md)
+
 A collection of nodes for manipulating `LATENT` in ComfyUI.
 
 All nodes are added under `hnmr/latent_ops`.

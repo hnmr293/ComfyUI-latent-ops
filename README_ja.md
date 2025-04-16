@@ -1,5 +1,7 @@
 # ComfyUI-latent-ops
 
+[English ver.](./README.md)
+
 ComfyUI で `LATENT` の操作を行うノード群です。
 
 ノードはすべて `hnmr/latent_ops` 以下に追加されます。
