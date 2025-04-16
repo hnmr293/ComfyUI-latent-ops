@@ -1,14 +1,13 @@
 import torch
 import torch.nn.functional as tf
+from .utils import input_float, input_int
 from .base import _LatentOperation
 
 
 class LatentOperationSigmoid(_LatentOperation):
     @classmethod
     def INPUT_TYPES(s):
-        return {
-            "required": {"alpha": ("FLOAT", {"default": 1.0})},
-        }
+        return {"required": {"alpha": input_float(default=1.0)}}
 
     def op(self, alpha: float):
         def sigmoid(latent: torch.Tensor, **kwargs):
@@ -20,9 +19,7 @@ class LatentOperationSigmoid(_LatentOperation):
 class LatentOperationHardSigmoid(_LatentOperation):
     @classmethod
     def INPUT_TYPES(s):
-        return {
-            "required": {"alpha": ("FLOAT", {"default": 1.0})},
-        }
+        return {"required": {"alpha": input_float(default=1.0)}}
 
     def op(self, alpha: float):
         def hard_sigmoid(latent: torch.Tensor, **kwargs):
@@ -34,9 +31,7 @@ class LatentOperationHardSigmoid(_LatentOperation):
 class LatentOperationLogistic(_LatentOperation):
     @classmethod
     def INPUT_TYPES(s):
-        return {
-            "required": {"alpha": ("FLOAT", {"default": 1.0})},
-        }
+        return {"required": {"alpha": input_float(default=1.0)}}
 
     def op(self, alpha: float):
         def logistic(latent: torch.Tensor, **kwargs):
@@ -48,9 +43,7 @@ class LatentOperationLogistic(_LatentOperation):
 class LatentOperationTanh(_LatentOperation):
     @classmethod
     def INPUT_TYPES(s):
-        return {
-            "required": {"alpha": ("FLOAT", {"default": 1.0})},
-        }
+        return {"required": {"alpha": input_float(default=1.0)}}
 
     def op(self, alpha: float):
         def tanh(latent: torch.Tensor, **kwargs):
@@ -62,9 +55,7 @@ class LatentOperationTanh(_LatentOperation):
 class LatentOperationHardTanh(_LatentOperation):
     @classmethod
     def INPUT_TYPES(s):
-        return {
-            "required": {"alpha": ("FLOAT", {"default": 1.0})},
-        }
+        return {"required": {"alpha": input_float(default=1.0)}}
 
     def op(self, alpha: float):
         def hard_tanh(latent: torch.Tensor, **kwargs):
@@ -76,9 +67,7 @@ class LatentOperationHardTanh(_LatentOperation):
 class LatentOperationSinh(_LatentOperation):
     @classmethod
     def INPUT_TYPES(s):
-        return {
-            "required": {"alpha": ("FLOAT", {"default": 1.0})},
-        }
+        return {"required": {"alpha": input_float(default=1.0)}}
 
     def op(self, alpha: float):
         def sinh(latent: torch.Tensor, **kwargs):
@@ -90,9 +79,7 @@ class LatentOperationSinh(_LatentOperation):
 class LatentOperationCosh(_LatentOperation):
     @classmethod
     def INPUT_TYPES(s):
-        return {
-            "required": {"alpha": ("FLOAT", {"default": 1.0})},
-        }
+        return {"required": {"alpha": input_float(default=1.0)}}
 
     def op(self, alpha: float):
         def cosh(latent: torch.Tensor, **kwargs):
@@ -104,9 +91,7 @@ class LatentOperationCosh(_LatentOperation):
 class LatentOperationReLU(_LatentOperation):
     @classmethod
     def INPUT_TYPES(s):
-        return {
-            "required": {"alpha": ("FLOAT", {"default": 1.0})},
-        }
+        return {"required": {"alpha": input_float(default=1.0)}}
 
     def op(self, alpha: float):
         def relu(latent: torch.Tensor, **kwargs):
@@ -118,9 +103,7 @@ class LatentOperationReLU(_LatentOperation):
 class LatentOperationReLU6(_LatentOperation):
     @classmethod
     def INPUT_TYPES(s):
-        return {
-            "required": {"alpha": ("FLOAT", {"default": 1.0})},
-        }
+        return {"required": {"alpha": input_float(default=1.0)}}
 
     def op(self, alpha: float):
         def relu6(latent: torch.Tensor, **kwargs):
@@ -133,8 +116,8 @@ class LatentOperationLeakyReLU(_LatentOperation):
     @classmethod
     def INPUT_TYPES(s):
         return {
-            "required": {"alpha": ("FLOAT", {"default": 1.0})},
-            "optional": {"negative_slope": ("FLOAT", {"default": 0.01})},
+            "required": {"alpha": input_float(default=1.0)},
+            "optional": {"negative_slope": input_float(default=0.01, min=0.0)},
         }
 
     def op(self, alpha: float, negative_slope: float | None = None):
@@ -150,9 +133,7 @@ class LatentOperationLeakyReLU(_LatentOperation):
 class LatentOperationELU(_LatentOperation):
     @classmethod
     def INPUT_TYPES(s):
-        return {
-            "required": {"alpha": ("FLOAT", {"default": 1.0})},
-        }
+        return {"required": {"alpha": input_float(default=1.0)}}
 
     def op(self, alpha: float):
         def elu(latent: torch.Tensor, **kwargs):
@@ -164,9 +145,7 @@ class LatentOperationELU(_LatentOperation):
 class LatentOperationSELU(_LatentOperation):
     @classmethod
     def INPUT_TYPES(s):
-        return {
-            "required": {"alpha": ("FLOAT", {"default": 1.0})},
-        }
+        return {"required": {"alpha": input_float(default=1.0)}}
 
     def op(self, alpha: float):
         def selu(latent: torch.Tensor, **kwargs):
@@ -178,9 +157,7 @@ class LatentOperationSELU(_LatentOperation):
 class LatentOperationCELU(_LatentOperation):
     @classmethod
     def INPUT_TYPES(s):
-        return {
-            "required": {"alpha": ("FLOAT", {"default": 1.0})},
-        }
+        return {"required": {"alpha": input_float(default=1.0)}}
 
     def op(self, alpha: float):
         def celu(latent: torch.Tensor, **kwargs):
@@ -192,9 +169,7 @@ class LatentOperationCELU(_LatentOperation):
 class LatentOperationGELU(_LatentOperation):
     @classmethod
     def INPUT_TYPES(s):
-        return {
-            "required": {"alpha": ("FLOAT", {"default": 1.0})},
-        }
+        return {"required": {"alpha": input_float(default=1.0)}}
 
     def op(self, alpha: float):
         def gelu(latent: torch.Tensor, **kwargs):
@@ -206,9 +181,7 @@ class LatentOperationGELU(_LatentOperation):
 class LatentOperationSiLU(_LatentOperation):
     @classmethod
     def INPUT_TYPES(s):
-        return {
-            "required": {"alpha": ("FLOAT", {"default": 1.0})},
-        }
+        return {"required": {"alpha": input_float(default=1.0)}}
 
     def op(self, alpha: float):
         def silu(latent: torch.Tensor, **kwargs):
@@ -220,9 +193,7 @@ class LatentOperationSiLU(_LatentOperation):
 class LatentOperationHardSwish(_LatentOperation):
     @classmethod
     def INPUT_TYPES(s):
-        return {
-            "required": {"alpha": ("FLOAT", {"default": 1.0})},
-        }
+        return {"required": {"alpha": input_float(default=1.0)}}
 
     def op(self, alpha: float):
         def hard_swish(latent: torch.Tensor, **kwargs):
@@ -234,9 +205,7 @@ class LatentOperationHardSwish(_LatentOperation):
 class LatentOperationMish(_LatentOperation):
     @classmethod
     def INPUT_TYPES(s):
-        return {
-            "required": {"alpha": ("FLOAT", {"default": 1.0})},
-        }
+        return {"required": {"alpha": input_float(default=1.0)}}
 
     def op(self, alpha: float):
         def mish(latent: torch.Tensor, **kwargs):
@@ -248,9 +217,7 @@ class LatentOperationMish(_LatentOperation):
 class LatentOperationSoftplus(_LatentOperation):
     @classmethod
     def INPUT_TYPES(s):
-        return {
-            "required": {"beta": ("FLOAT", {"default": 1.0})},
-        }
+        return {"required": {"beta": input_float(default=1.0)}}
 
     def op(self, beta: float):
         def softplus(latent: torch.Tensor, **kwargs):
@@ -262,7 +229,7 @@ class LatentOperationSoftplus(_LatentOperation):
 class LatentOperationSoftmax(_LatentOperation):
     @classmethod
     def INPUT_TYPES(s):
-        return {"required": {"axis": ("INT", {"default": -1})}}
+        return {"required": {"axis": input_int(default=-1)}}
 
     def op(self, axis: int):
         def softmax(latent: torch.Tensor, **kwargs):
@@ -274,7 +241,7 @@ class LatentOperationSoftmax(_LatentOperation):
 class LatentOperationSoftmin(_LatentOperation):
     @classmethod
     def INPUT_TYPES(s):
-        return {"required": {"axis": ("INT", {"default": -1})}}
+        return {"required": {"axis": input_int(default=-1)}}
 
     def op(self, axis: int):
         def softmin(latent: torch.Tensor, **kwargs):
@@ -286,9 +253,7 @@ class LatentOperationSoftmin(_LatentOperation):
 class LatentOperationSoftsign(_LatentOperation):
     @classmethod
     def INPUT_TYPES(s):
-        return {
-            "required": {"alpha": ("FLOAT", {"default": 1.0})},
-        }
+        return {"required": {"alpha": input_float(default=1.0)}}
 
     def op(self, alpha: float):
         def softsign(latent: torch.Tensor, **kwargs):

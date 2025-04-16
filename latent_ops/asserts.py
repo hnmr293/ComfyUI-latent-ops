@@ -1,6 +1,6 @@
 import torch
 
-from .utils import parse_shape
+from .utils import parse_shape, input_float, input_int
 from .base import _NodeMarker
 
 
@@ -10,7 +10,7 @@ class AssertDims(_NodeMarker):
         return {
             "required": {
                 "latent": ("LATENT",),
-                "dims": ("INT",),
+                "dims": input_int(default=1, min=1, max=100),
             }
         }
 

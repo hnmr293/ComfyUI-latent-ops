@@ -1,5 +1,5 @@
 import torch
-from .utils import parse_shape
+from .utils import parse_shape, input_float, input_int
 from .base import _LatentOperation, _NodeMarker
 
 
@@ -31,20 +31,21 @@ class LatentOperationSlice(_LatentOperation):
     def INPUT_TYPES(s):
         return {
             "required": {
-                "axis": ("INT", {"default": -1, "tooltip": "Axis to slice along."}),
-                "start": ("INT", {"default": 0, "tooltip": "Start index for slicing."}),
-                "end": ("INT", {"default": 1, "tooltip": "End index for slicing."}),
-                "step": ("INT", {"default": 1, "tooltip": "Step size for slicing."}),
+                "axis": input_int(default=-1, tooltip="Axis to slice along."),
+                "start": input_int(default=0, tooltip="Start index for slicing."),
+                "end": input_int(default=0, tooltip="End index for slicing."),
+                "step": input_int(default=1, min=0, tooltip="Step size for slicing."),
             },
         }
 
     def op(self, axis: int, start: int, end: int, step: int):
         start_ = start if start != 0 else None
         end_ = end if end != 0 else None
+        step_ = step if 1 < step else None
 
         def slice_(latent: torch.Tensor, **kwargs):
             slices = [slice(None)] * latent.ndim
-            slices[axis] = slice(start_, end_, step)
+            slices[axis] = slice(start_, end_, step_)
             return latent[tuple(slices)]
 
         return (slice_,)
@@ -55,8 +56,8 @@ class LatentOperationRoll(_LatentOperation):
     def INPUT_TYPES(s):
         return {
             "required": {
-                "shift": ("INT", {"default": 1, "tooltip": "Number of positions to shift."}),
-                "axis": ("INT", {"default": -1, "tooltip": "Axis to roll along."}),
+                "shift": input_int(default=0, tooltip="Number of positions to shift."),
+                "axis": input_int(default=-1, tooltip="Axis to roll along."),
             },
         }
 
@@ -70,7 +71,7 @@ class LatentOperationRoll(_LatentOperation):
 class LatentOperationAddBroadcast(_LatentOperation):
     @classmethod
     def INPUT_TYPES(s):
-        return {"required": {"value": ("FLOAT", {"default": 1.0, "min": -10000.0, "max": 10000.0, "step": 0.0001})}}
+        return {"required": {"value": input_float()}}
 
     def op(self, value: float):
         def add(latent: torch.Tensor, **kwargs):
@@ -82,7 +83,7 @@ class LatentOperationAddBroadcast(_LatentOperation):
 class LatentOperationMulBroadcast(_LatentOperation):
     @classmethod
     def INPUT_TYPES(s):
-        return {"required": {"value": ("FLOAT", {"default": 1.0, "min": -10000.0, "max": 10000.0, "step": 0.0001})}}
+        return {"required": {"value": input_float(default=1.0)}}
 
     def op(self, value: float):
         def mul(latent: torch.Tensor, **kwargs):
@@ -94,7 +95,7 @@ class LatentOperationMulBroadcast(_LatentOperation):
 class LatentOperationFill(_LatentOperation):
     @classmethod
     def INPUT_TYPES(s):
-        return {"required": {"value": ("FLOAT",)}}
+        return {"required": {"value": input_float()}}
 
     def op(self, value: float):
         def fill(latent: torch.Tensor, **kwargs):
@@ -136,8 +137,8 @@ class LatentOperationClamp(_LatentOperation):
     def INPUT_TYPES(s):
         return {
             "required": {
-                "min": ("FLOAT",),
-                "max": ("FLOAT",),
+                "min": input_float(default=0.0, tooltip="Minimum value to clamp to."),
+                "max": input_float(default=1.0, tooltip="Maximum value to clamp to."),
             },
         }
 
@@ -151,7 +152,7 @@ class LatentOperationClamp(_LatentOperation):
 class LatentOperationClampMin(_LatentOperation):
     @classmethod
     def INPUT_TYPES(s):
-        return {"required": {"min": ("FLOAT",)}}
+        return {"required": {"min": input_float(default=0.0, tooltip="Minimum value to clamp to.")}}
 
     def op(self, min: float):
         def clamp_min(latent: torch.Tensor, **kwargs):
@@ -163,7 +164,7 @@ class LatentOperationClampMin(_LatentOperation):
 class LatentOperationClampMax(_LatentOperation):
     @classmethod
     def INPUT_TYPES(s):
-        return {"required": {"max": ("FLOAT",)}}
+        return {"required": {"max": input_float(default=1.0, tooltip="Maximum value to clamp to.")}}
 
     def op(self, max: float):
         def clamp_max(latent: torch.Tensor, **kwargs):
@@ -176,7 +177,7 @@ class LatentOperationApplyCFG(_LatentOperation):
     @classmethod
     def INPUT_TYPES(s):
         return {
-            "required": {"scale": ("FLOAT", {"default": 1.0, "tooltip": "result = (1-scale) * uncond + scale * cond"})}
+            "required": {"scale": input_float(default=1.0, tooltip="result = (1-scale) * uncond + scale * cond")},
         }
 
     def op(self, scale: float):
@@ -213,7 +214,7 @@ class LatentOperationInterpolate(_NodeMarker):
             "required": {
                 "latent_a": ("LATENT",),
                 "latent_b": ("LATENT",),
-                "alpha": ("FLOAT", {"default": 0.5, "step": 0.0001, "tooltip": "z = (1-alpha) * a + alpha * b"}),
+                "alpha": input_float(default=0.5, tooltip="z = (1-alpha) * a + alpha * b"),
             },
         }
 

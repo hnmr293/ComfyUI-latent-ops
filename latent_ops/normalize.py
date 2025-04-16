@@ -1,5 +1,6 @@
 import torch
 import torch.nn.functional as tf
+from .utils import input_float, input_int
 from .base import _LatentOperation
 
 
@@ -21,8 +22,8 @@ class LatentOperationNormalizeAlongAxis(_LatentOperation):
     @classmethod
     def INPUT_TYPES(s):
         return {
-            "required": {"axis": ("INT", {"default": -1, "tooltip": "Axis along which to normalize."})},
-            # "optional": {"eps": ("FLOAT", {"default": 1e-8, "tooltip": "Epsilon value for numerical stability."})},
+            "required": {"axis": input_int(default=-1, tooltip="Axis along which to normalize.")},
+            # "optional": {"eps": input_float(default=1e-8, tooltip="Epsilon value for numerical stability.")},
         }
 
     def op(self, axis: int, eps: float | None = None):
@@ -42,7 +43,7 @@ class LatentOperationNormalize(_LatentOperation):
     @classmethod
     def INPUT_TYPES(s):
         return {
-            # "optional": {"eps": ("FLOAT", {"default": 1e-8, "tooltip": "Epsilon value for numerical stability."})},
+            # "optional": {"eps": input_float(default=1e-8, tooltip="Epsilon value for numerical stability.")},
         }
 
     def op(self, eps: float | None = None):
@@ -62,7 +63,7 @@ class LatentOperationLayerNorm(_LatentOperation):
     @classmethod
     def INPUT_TYPES(s):
         return {
-            # "optional": {"eps": ("FLOAT", {"default": 1e-8, "tooltip": "Epsilon value for numerical stability."})},
+            # "optional": {"eps": input_float(default=1e-8, tooltip="Epsilon value for numerical stability.")},
         }
 
     def op(self, eps: float | None = None):
@@ -82,7 +83,7 @@ class LatentOperationInstanceNorm(_LatentOperation):
     @classmethod
     def INPUT_TYPES(s):
         return {
-            # "optional": {"eps": ("FLOAT", {"default": 1e-8, "tooltip": "Epsilon value for numerical stability."})},
+            # "optional": {"eps": input_float(default=1e-8, tooltip="Epsilon value for numerical stability.")},
         }
 
     def op(self, eps: float | None = None):
@@ -102,7 +103,7 @@ class LatentOperationNormalizeMinMax(_LatentOperation):
     @classmethod
     def INPUT_TYPES(s):
         return {
-            # "optional": {"eps": ("FLOAT", {"default": 1e-8, "tooltip": "Epsilon value for numerical stability."})},
+            # "optional": {"eps": input_float(default=1e-8, tooltip="Epsilon value for numerical stability.")},
         }
 
     def op(self, eps: float | None = None):
@@ -122,8 +123,8 @@ class LatentOperationNormalizePercentile(_LatentOperation):
     @classmethod
     def INPUT_TYPES(s):
         return {
-            "required": {"percentile": ("FLOAT", {"default": 0.99, "min": 0.0, "max": 1.0, "step": 0.0001})},
-            # "optional": {"eps": ("FLOAT", {"default": 1e-8, "tooltip": "Epsilon value for numerical stability."})},
+            "required": {"percentile": input_float(default=0.99, min=0.0, max=1.0)},
+            # "optional": {"eps": input_float(default=1e-8, tooltip="Epsilon value for numerical stability.")},
         }
 
     def op(self, percentile: float, eps: float | None = None):

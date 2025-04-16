@@ -1,5 +1,6 @@
 import torch
 import torch.nn.functional as tf
+from .utils import input_float, input_int
 from .base import _NodeMarker
 
 
@@ -9,7 +10,7 @@ class GetSigma(_NodeMarker):
         return {
             "required": {
                 "sigmas": ("SIGMAS",),
-                "index": ("INT", {"default": 0}),
+                "index": input_int(),
             }
         }
 
