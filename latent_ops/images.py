@@ -47,4 +47,5 @@ class Latent11ToImage(Latent01ToImage):
 
 __all__ = [
     "Latent01ToImage",
+    "Latent11ToImage",
 ]
