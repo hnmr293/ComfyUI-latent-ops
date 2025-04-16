@@ -245,4 +245,5 @@ __all__ = [
     "LatentOperationClampMax",
     "LatentOperationApplyCFG",
     "LatentOperationSplitCFG",
+    "LatentOperationInterpolate",
 ]
