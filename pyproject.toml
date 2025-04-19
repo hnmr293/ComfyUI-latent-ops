@@ -1,0 +1,14 @@
+[project]
+name = "latent-ops"
+description = "A collection of nodes for manipulating LATENT in ComfyUI."
+version = "1.0.0"
+license = {file = "LICENSE"}
+
+[project.urls]
+Repository = "https://github.com/hnmr293/ComfyUI-latent-ops"
+#  Used by Comfy Registry https://comfyregistry.org
+
+[tool.comfy]
+PublisherId = ""
+DisplayName = "ComfyUI-latent-ops"
+Icon = ""
